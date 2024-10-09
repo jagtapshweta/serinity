@@ -194,7 +194,7 @@ footer {
 /* Section Background */
 #about-image {
     position: relative;
-    background: url('about-bg.png') no-repeat center center/cover;
+    background: url('../public/about-bg.png') no-repeat center center/cover;
     height: 100vh; /* Full viewport height */
 }
 
