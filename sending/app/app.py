@@ -11,6 +11,10 @@ stress_model = joblib.load('../model_stress.pkl')
 def home():
     return render_template('index.html')
 
+@app.route('/chat-bot.html')
+def chatBot():
+    return render_template('chat-bot.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json  # Get the JSON data from the request

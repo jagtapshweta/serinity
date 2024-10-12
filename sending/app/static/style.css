@@ -1,107 +1,102 @@
 body {
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif; /* Added fallback font */
     background-color: #f4f4f4;
     margin: 0;
     padding: 20px;
+}
+
+.header {
+    max-width: 1000px;
+    height: 60px; /* Centered the header */
+    color: #fff;
+    background: #72d1fc;
+    padding: 10px 20px; /* Combined padding properties */
+    font-size: 30px;
+    border-radius: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center; /* Center text vertically */
 }
 
 .chat-container {
     max-width: 1000px;
     margin: 0 auto;
     background: #fff;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 20px; /* Increased padding for better spacing */
+    border-radius: 25px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .chat-box {
-    max-height: 80vh;
+    height: 80vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    padding: 10px; /* Added padding to the chat box */
 }
 
 .bot-message {
-    background-color: #7DF9FF; /* Red color */
+    background-color: #7DF9FF; /* Light cyan */
     color: black;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     padding: 10px;
     border-radius: 15px;
-    margin: 10px;
+    margin: 10px 0; /* Simplified margin for vertical spacing */
     max-width: 70%;
-    align-self: flex-end;
+    align-self: flex-start;
     word-wrap: break-word;
 }
 
-.option-button {
+.option-button, .start-button {
     background-color: #D6DDE0; /* Grey color */
     color: black;
     padding: 10px;
     font-size: 16px;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     border: none;
     border-radius: 15px;
     margin: 5px 10px;
     cursor: pointer;
     max-width: 70%;
-    text-align: right;
-    align-self: flex-start;
-    word-wrap: break-word;
-}
-
-.option-button:hover {
-    background-color: #9DBED1;
-}
-
-.guidelines-message {
-    background-color: #7DF9FF; /* Green color for guidelines */
-    color: black;
-    font-family: 'Open Sans';
-    padding: 10px;
-    border-radius: 15px;
-    margin: 10px;
-    max-width: 70%;
-    align-self: flex-start;
-    word-wrap: break-word;
-}
-
-.start-button {
-    background-color: #D6DDE0; /* Grey color */
-    color: black;
-    padding: 10px;
-    font-family: 'Open Sans';
-    border: none;
-    font-size: 16px;
-    border-radius: 15px;
-    margin: 5px 10px;
-    cursor: pointer;
-    max-width: 70%;
+    text-align: center; /* Centered text */
     align-self: flex-start;
 }
 
-.start-button:hover {
-    background-color: #9DBED1;
+.option-button:hover, .start-button:hover {
+    background-color: #9DBED1; /* Hover color */
 }
 
-.thank-you-message {
-    background-color: #7DF9FF; /* Red color */
+.guidelines-message, .thank-you-message {
+    background-color: #7DF9FF; /* Light cyan */
     color: black;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     padding: 10px;
     border-radius: 15px;
-    margin: 10px;
+    margin: 10px 0; /* Simplified margin for vertical spacing */
     max-width: 70%;
-    align-self: flex-end;
+    align-self: flex-start; /* Updated for consistency */
     word-wrap: break-word;
 }
+
 .user-message {
     background-color: #d9edf7; /* Light blue color */
     color: black;
     padding: 10px;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     border-radius: 15px;
-    margin: 10px;
+    margin: 10px 0; /* Simplified margin for vertical spacing */
     max-width: 70%;
-    align-self: flex-start;
+    align-self: flex-end;
     word-wrap: break-word;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .header, .chat-container, .chat-box {
+        max-width: 90%; /* Adjust max-width for mobile devices */
+    }
+
+    .bot-message, .user-message, .guidelines-message, .thank-you-message, .option-button, .start-button {
+        max-width: 95%; /* Increase width for smaller screens */
+    }
 }

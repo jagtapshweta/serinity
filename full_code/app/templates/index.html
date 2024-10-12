@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serenity</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -18,7 +19,12 @@
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#about-image">About Us</a></li>
-                    <li><a href="#full-width-image" class="sign-in-btn">Sign-In</a></li>
+                    {% if isLogged %}
+                        <li><a onclick="logOut()" class="sign-in-btn">Log-Out</a></li>
+                    {% else %}
+                        <li><a href="#full-width-image" class="sign-in-btn">Sign-In/Log-In</a></li>    
+                    {% endif %}
+    
                 </ul>
             </nav>
         </div>
@@ -34,7 +40,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="content">
-                        <h2>Welcome to Serenity</h2>
+                        <h2>Welcome to Serenity <span class="gemini">{{ userName }}</span></h2>
                         <h1>Empowering Students to Thrive</h1>
                         <p>Our advanced AI system evaluates your mental well-being and offers actionable remedies to reduce stress.</p>
                         <a href="#" class="btn-analyze mt-3" onclick="redirectToChatbot()">Analyze Stress</a>
@@ -42,7 +48,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="image-container">
-                        <img src="../public/main-chat-icon.png" alt="Chat Icon" class="img-fluid">
+                        <img src="{{ url_for('static', filename='main-chat-icon.png') }}" alt="Chat Icon" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -85,32 +91,62 @@
     
 
     <!-- Full-Width Image Section with Sign-In Overlay -->
-<section id="full-width-image" class="full-width-image">
-    <img src="../public/image.png" alt="Full Width Banner">
+    {% if not isLogged %} 
+    <section id="full-width-image" class="full-width-image">
+    <img src="{{ url_for('static', filename='image.png') }}" alt="Full Width Banner">
+    {% endif %}
     
     <!-- Sign-In Form Overlay -->
+    {% if not isLogged %}
     <div class="sign-in-overlay">
         <h2 class="text-center">Sign-In to Your Account</h2>
-        <form class="sign-in-form">
+        <form action="/login" method="post" class="sign-in-form">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
             </div>
-            <button type="submit" class="btn-sign-in">Sign-In</button>
+            <button type="submit" class="btn-sign-in">Sign-In/Log-In</button>
         </form>
     </div>
+    {% endif %}
 </section>
 <script>
+    const isLogged="{{isLogged}}"
     function redirectToChatbot() {
-        window.location.href = './chat-bot.html';  // Adjust the path if necessary
+        console.log(isLogged)
+        if (isLogged=="True") {
+            // If logged in, redirect to the chatbot page
+            window.location.href = '/chat-bot.html';
+        } else {
+            // If not logged in, show a message or redirect to the sign-in page
+            alert("You need to log-in to analyze your stress.");
+            window.location.href = '#full-width-image';  // Redirect to the sign-in section
+        }
+    }
+
+    function logOut() {
+        // Send a POST request to the log-out route
+        fetch('/log-out', {
+            method: 'POST', // Use POST for logout to avoid CSRF attacks
+            credentials: 'same-origin', // Include cookies for the session
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url; // Redirect to the home page if the response is redirected
+            }
+        })
+        .catch(error => {
+            console.error('Error logging out:', error); // Handle any errors
+        });
+
     }
 </script>
 
