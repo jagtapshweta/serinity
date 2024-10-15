@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serenity</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -22,9 +21,8 @@
                     {% if isLogged %}
                         <li><a onclick="logOut()" class="sign-in-btn">Log-Out</a></li>
                     {% else %}
-                        <li><a href="#full-width-image" class="sign-in-btn">Sign-In/Log-In</a></li>    
+                        <li><a href="#full-width-image" class="sign-in-btn">Log-In</a></li>    
                     {% endif %}
-    
                 </ul>
             </nav>
         </div>
@@ -89,66 +87,121 @@
         </div>
     </section>
     
-
     <!-- Full-Width Image Section with Sign-In Overlay -->
     {% if not isLogged %} 
     <section id="full-width-image" class="full-width-image">
-    <img src="{{ url_for('static', filename='image.png') }}" alt="Full Width Banner">
+        <img src="{{ url_for('static', filename='image.png') }}" alt="Full Width Banner">
     {% endif %}
     
     <!-- Sign-In Form Overlay -->
     {% if not isLogged %}
     <div class="sign-in-overlay">
-        <h2 class="text-center">Sign-In to Your Account</h2>
-        <form action="/login" method="post" class="sign-in-form">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for category, message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+        {% endwith %}
+        <div class="toggle-buttons text-center mb-3">
+            <button class="btn btn-secondary" onclick="showLogin()">Log-In</button>
+            <button class="btn btn-secondary" onclick="showCreateAccount()">Create New Account</button>
+        </div>
+        <!-- Login Form -->
+        <form id="login-form" action="/login" method="post" class="sign-in-form">
+            <div class="form-group">
+                <label for="login-email">Email:</label>
+                <input type="email" class="form-control" name="email" id="login-email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password:</label>
+                <input type="password" class="form-control" name="password" id="login-password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Log-In</button>
+        </form>
+
+        <!-- Create Account Form -->
+        <form id="create-account-form" action="/create-account" method="post" class="sign-in-form d-none">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name" required>
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+                <label for="create-email">Email:</label>
+                <input type="email" class="form-control" name="email" id="create-email" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
+                <label for="create-password">Password:</label>
+                <input type="password" class="form-control" name="password" id="create-password" placeholder="Enter your password" required>
             </div>
-            <button type="submit" class="btn-sign-in">Sign-In/Log-In</button>
+            <button type="submit" class="btn btn-success">Create Account</button>
         </form>
     </div>
     {% endif %}
-</section>
-<script>
-    const isLogged="{{isLogged}}"
-    function redirectToChatbot() {
-        console.log(isLogged)
-        if (isLogged=="True") {
-            // If logged in, redirect to the chatbot page
-            window.location.href = '/chat-bot.html';
-        } else {
-            // If not logged in, show a message or redirect to the sign-in page
-            alert("You need to log-in to analyze your stress.");
-            window.location.href = '#full-width-image';  // Redirect to the sign-in section
-        }
-    }
+    </section>
 
-    function logOut() {
-        // Send a POST request to the log-out route
-        fetch('/log-out', {
-            method: 'POST', // Use POST for logout to avoid CSRF attacks
-            credentials: 'same-origin', // Include cookies for the session
-        })
-        .then(response => {
-            if (response.redirected) {
-                window.location.href = response.url; // Redirect to the home page if the response is redirected
+    <script>
+        const isLogged="{{isLogged}}";
+
+        function redirectToChatbot() {
+            if (isLogged == "True") {
+                window.location.href = '/chat-bot.html';
+            } else {
+                alert("You need to log-in to analyze your stress.");
+                window.location.href = '#full-width-image';  // Redirect to the sign-in section
             }
-        })
-        .catch(error => {
-            console.error('Error logging out:', error); // Handle any errors
-        });
+        }
 
-    }
-</script>
+        function logOut() {
+            fetch('/log-out', {
+                method: 'POST',
+                credentials: 'same-origin',
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            })
+            .catch(error => {
+                console.error('Error logging out:', error);
+            });
+        }
 
+        // Show the login form and hide the create account form
+        function showLogin() {
+            document.getElementById('login-form').classList.remove('d-none');
+            document.getElementById('create-account-form').classList.add('d-none');
+        }
+
+        // Show the create account form and hide the login form
+        function showCreateAccount() {
+            document.getElementById('create-account-form').classList.remove('d-none');
+            document.getElementById('login-form').classList.add('d-none');
+        }
+
+        // Form validation
+        document.getElementById('login-form').onsubmit = function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        };
+
+        document.getElementById('create-account-form').onsubmit = function() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('create-email').value;
+            const password = document.getElementById('create-password').value;
+            if (!name || !email || !password) {
+                alert('Please fill in all fields.');
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        };
+    </script>
 </body>
 </html>

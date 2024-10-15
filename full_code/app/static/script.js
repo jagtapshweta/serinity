@@ -172,5 +172,5 @@ function displayResults(data) {
   }
 
   chatBox.appendChild(finalResultContainer);
-  chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+  chatBox.scrollTop = chatBox.scrollHeight; 
 }

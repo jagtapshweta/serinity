@@ -95,6 +95,7 @@ nav ul li a:hover {
 
 .sign-in-btn:hover {
     background-color: hsl(255, 64%, 46%);
+    color:#fff
 }
 
 /* Main content styles */
@@ -144,6 +145,7 @@ p {
 
 .btn-analyze:hover {
     background-color: #4314d0;
+    color:#fff
 }
 
 .image-container img {
@@ -354,5 +356,165 @@ footer {
     .full-width-image {
         height: 100vh;
     }
+}
+
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sign-In Overlay */
+.sign-in-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px 40px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.sign-in-overlay h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Input Fields */
+.sign-in-overlay input[type="text"],
+.sign-in-overlay input[type="password"],
+.sign-in-overlay input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Buttons */
+.sign-in-overlay button {
+    background-color: #724ae8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin: 5px 0;
+}
+
+.sign-in-overlay button:hover {
+    background-color:  #5223dd;
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.button-container {
+    display: flex;               /* Use Flexbox for alignment */
+    justify-content: space-between; /* Distribute space between buttons */
+    margin-top: 20px;           /* Space above the buttons */
+}
+
+.btn-login, .btn-secondary {
+    flex: 1;                    /* Make buttons equal width */
+    margin: 0 5px;             /* Add margin between buttons */
+}
+
+.btn-login {
+    background-color: #343a40; /* Dark color for the Log-In button */
+    color: white;              /* Text color */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+.btn-login:hover {
+    background-color: #495057; /* Darker color on hover */
+}
+
+.btn-secondary {
+    background-color: #724ae8; /* Blue color for Create New Account */
+    color: white;              /* Text color */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+.btn-secondary:hover {
+    background-color: #5223dd;
+    color: #fff; /* Darker blue on hover */
+}
+
+
+.toggle-buttons {
+    display: flex;               /* Use Flexbox for alignment */
+    justify-content: center;     /* Center the buttons */
+    gap: 10px;                  /* Space between buttons */
+    margin-top: 20px;           /* Space above the button group */
+}
+
+.btn {
+    flex: 1;                    /* Make buttons equal width */
+    padding: 5px;             /* Add padding for better touch target */
+    font-size: 16px;           /* Adjust font size */
+    border-radius: 5px;        /* Rounded corners */
+    border: none;              /* Remove default border */
+    cursor: pointer;           /* Change cursor to pointer on hover */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+.btn-secondary {
+    background-color:#724ae8; /* Blue color for buttons */
+    color: white;              /* Text color */
+}
+
+.btn-secondary:hover {
+    background-color: #5223dd; /* Darker blue on hover */
+}
+
+
+/* Add responsive design */
+@media (max-width: 600px) {
+    .sign-in-overlay {
+        padding: 20px;
+    }
+
+    .sign-in-overlay h2 {
+        font-size: 20px;
+    }
+
+    .sign-in-overlay input,
+    .sign-in-overlay button {
+        font-size: 14px;
+    }
+}
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+}
+
+.flashes li {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.error {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
 }
 
